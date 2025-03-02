@@ -83,7 +83,8 @@ class App {
 
         let indexes: number[] = [];
         while (true) {
-            const ans = await this.rl.question("Enter indexes of repositories you want to use (Comma separated): ");
+            const ans = await this.rl.question("Enter indexes of repositories you want to use.\n" +
+                "The first choice will be used as the fetch repository. (Comma separated): ");
             indexes = ans.split(",")
                 .map((value, _) => value.trim())
                 .map((value, _) => Number.parseInt(value));
@@ -93,7 +94,9 @@ class App {
             console.error("Enter numbers");
         }
 
-        return settings.repositoryRoots.filter((_value, idx) => indexes.indexOf(idx) !== -1);
+        return indexes.map((val, _) => {
+            return settings.repositoryRoots[val];
+        });
     }
 
     async getRepoName(): Promise<string> {
